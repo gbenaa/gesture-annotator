@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from models import db_session, Image, GestureInstance
+from models import db_session, Image, GestureInstance, Gesture
 from sqlalchemy.exc import SQLAlchemyError
 import os
 from werkzeug.utils import secure_filename
@@ -42,6 +42,19 @@ def upload_file():
         app.logger.error(f"Database error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/gestures', methods=['GET'])
+def get_gestures():
+    try:
+        gestures = db_session.query(Gesture).all()
+        gesture_list = [
+            {"id": gesture.id, "name": gesture.name, "description": gesture.description}
+            for gesture in gestures
+        ]
+        return jsonify(gesture_list), 200
+    except SQLAlchemyError as e:
+        app.logger.error(f"Database error: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/annotate', methods=['POST'])
 def annotate():
     data = request.get_json()
@@ -50,16 +63,23 @@ def annotate():
         return jsonify({'error': 'No JSON received'}), 400
 
     image_id = data.get('image_id')
+    gesture_id = data.get('gesture_id')
     region_coordinates = data.get('region_coordinates')
     notes = data.get('notes', '')
 
-    if not image_id or not region_coordinates:
+    if not image_id or not region_coordinates or not gesture_id:
         app.logger.error("Missing required fields.")
         return jsonify({'error': 'Missing required fields'}), 400
 
+    # Validate gesture_id exists
+    gesture = db_session.query(Gesture).filter_by(id=gesture_id).first()
+    if gesture is None:
+        app.logger.error(f"Gesture with id {gesture_id} not found.")
+        return jsonify({'error': 'Invalid gesture_id'}), 400
+
     new_instance = GestureInstance(
         image_id=image_id,
-        gesture_id=None,
+        gesture_id=gesture_id,
         region_coordinates=region_coordinates,
         cropped_image_path="",
         notes=notes

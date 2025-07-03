@@ -7,6 +7,7 @@ export default defineConfig({
         proxy: {
             '/upload': 'http://127.0.0.1:5000',
             '/annotate': 'http://127.0.0.1:5000',
+            '/gestures': 'http://127.0.0.1:5000',   // <--- Add this line if missing
         }
     }
 });

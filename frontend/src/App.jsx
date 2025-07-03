@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Stage, Layer, Rect, Image as KonvaImage } from 'react-konva';
 import axios from 'axios';
 
@@ -8,7 +8,28 @@ function App() {
     const [rect, setRect] = useState(null);
     const [notes, setNotes] = useState("");
     const [uploaded, setUploaded] = useState(false);
+    const [gestures, setGestures] = useState([]);
+    const [selectedGestureId, setSelectedGestureId] = useState("");
+
     const stageRef = useRef();
+
+    useEffect(() => {
+        const fetchGestures = async () => {
+            try {
+                const res = await axios.get('/gestures');
+                if (Array.isArray(res.data)) {
+                    setGestures(res.data);
+                } else {
+                    console.error("Unexpected gestures response:", res.data);
+                    setGestures([]);
+                }
+            } catch (err) {
+                console.error("Failed to fetch gestures. Ensure the /gestures endpoint exists on your backend.", err);
+                setGestures([]);
+            }
+        };
+        fetchGestures();
+    }, []);
 
     const handleFile = async (e) => {
         const file = e.target.files[0];
@@ -43,20 +64,30 @@ function App() {
     };
 
     const handleMouseUp = () => {
-        // Stop drawing
+        // Optional: constrain rect to positive width/height
     };
 
     const handleSave = async () => {
         if (!imageId || !rect) {
-            alert("Upload image and draw a rectangle first.");
+            alert("Please upload an image and draw a rectangle first.");
             return;
         }
+        if (!selectedGestureId) {
+            alert("Please select a gesture before saving.");
+            return;
+        }
+
+        const payload = {
+            image_id: imageId,
+            gesture_id: selectedGestureId,
+            region_coordinates: rect,
+            notes: notes
+        };
+
+        console.log("Submitting payload:", JSON.stringify(payload));
+
         try {
-            const res = await axios.post('/annotate', {
-                image_id: imageId,
-                region_coordinates: rect,
-                notes: notes
-            });
+            const res = await axios.post('/annotate', payload);
             alert("Annotation saved: " + JSON.stringify(res.data));
         } catch (err) {
             alert("Save failed: " + err);
@@ -97,12 +128,27 @@ function App() {
                     )}
                 </Layer>
             </Stage>
+
             <textarea
                 placeholder="Notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 style={{ display: 'block', marginTop: '10px', width: '600px' }}
             />
+
+            <select
+                value={selectedGestureId}
+                onChange={(e) => setSelectedGestureId(e.target.value)}
+                style={{ marginTop: '10px', width: '600px', padding: '5px' }}
+            >
+                <option value="">Select Gesture</option>
+                {gestures.map((gesture) => (
+                    <option key={gesture.id} value={gesture.id}>
+                        {gesture.name}
+                    </option>
+                ))}
+            </select>
+
             <button onClick={handleSave} style={{ marginTop: '10px' }}>
                 Save Annotation
             </button>

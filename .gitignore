@@ -4,11 +4,15 @@ backend/*.pyc
 backend/venv/
 backend/uploads/
 backend/gesture_instance_crops/
+backend/delme/
 
 # Node
 frontend/node_modules/
 frontend/dist/
+frontend/delme/
 
 # Misc
 *.env
 flask.log
+
+venv/

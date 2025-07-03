@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from models import db_session, Image, GestureInstance, Gesture
 from sqlalchemy.exc import SQLAlchemyError
@@ -42,19 +42,6 @@ def upload_file():
         app.logger.error(f"Database error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/gestures', methods=['GET'])
-def get_gestures():
-    try:
-        gestures = db_session.query(Gesture).all()
-        gesture_list = [
-            {"id": gesture.id, "name": gesture.name, "description": gesture.description}
-            for gesture in gestures
-        ]
-        return jsonify(gesture_list), 200
-    except SQLAlchemyError as e:
-        app.logger.error(f"Database error: {str(e)}")
-        return jsonify({'error': str(e)}), 500
-
 @app.route('/annotate', methods=['POST'])
 def annotate():
     data = request.get_json()
@@ -67,15 +54,16 @@ def annotate():
     region_coordinates = data.get('region_coordinates')
     notes = data.get('notes', '')
 
-    if not image_id or not region_coordinates or not gesture_id:
+    if not image_id or not region_coordinates:
         app.logger.error("Missing required fields.")
         return jsonify({'error': 'Missing required fields'}), 400
 
-    # Validate gesture_id exists
-    gesture = db_session.query(Gesture).filter_by(id=gesture_id).first()
-    if gesture is None:
-        app.logger.error(f"Gesture with id {gesture_id} not found.")
-        return jsonify({'error': 'Invalid gesture_id'}), 400
+    # Validate gesture_id if provided
+    if gesture_id is not None:
+        gesture = db_session.query(Gesture).filter_by(id=gesture_id).first()
+        if not gesture:
+            app.logger.error(f"Invalid gesture_id: {gesture_id}")
+            return jsonify({'error': 'Invalid gesture_id'}), 400
 
     new_instance = GestureInstance(
         image_id=image_id,
@@ -93,6 +81,23 @@ def annotate():
         db_session.rollback()
         app.logger.error(f"Database error: {str(e)}")
         return jsonify({'error': str(e)}), 500
+
+@app.route('/gestures', methods=['GET'])
+def get_gestures():
+    try:
+        gestures = db_session.query(Gesture).all()
+        gesture_list = [
+            {"id": gesture.id, "name": gesture.name, "description": gesture.description}
+            for gesture in gestures
+        ]
+        return jsonify(gesture_list), 200
+    except SQLAlchemyError as e:
+        app.logger.error(f"Database error: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/uploads/<path:filename>')
+def uploaded_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

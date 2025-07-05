@@ -7,4 +7,13 @@
 [33mPress CTRL+C to quit[0m
  * Restarting with stat
  * Debugger is active!
- * Debugger PIN: 513-534-272
+ * Debugger PIN: 216-789-257
+31.94.66.22 - - [05/Jul/2025 11:22:10] "GET /report/api/images HTTP/1.1" 200 -
+31.94.66.22 - - [05/Jul/2025 11:22:11] "GET /report/api/images HTTP/1.1" 200 -
+31.94.66.22 - - [05/Jul/2025 11:22:11] "GET /uploads/main-image.jpeg HTTP/1.1" 200 -
+31.94.66.22 - - [05/Jul/2025 11:22:11] "GET /uploads/Byzantine-Icon.jpg HTTP/1.1" 200 -
+31.94.66.22 - - [05/Jul/2025 11:22:11] "GET /uploads/test_image.png HTTP/1.1" 200 -
+31.94.66.22 - - [05/Jul/2025 11:22:11] "GET /uploads/zpnn_lambardos-emmanuel-the-virgin-hodegetria-tempera-on-wood-icon-circa-1570-1599-h-22-4cm-w-12-5cm.jpg HTTP/1.1" 200 -
+31.94.66.22 - - [05/Jul/2025 11:22:11] "GET /uploads/byz_1_figure_02.tif.jpg HTTP/1.1" 200 -
+31.94.66.22 - - [05/Jul/2025 11:22:33] "GET / HTTP/1.1" 200 -
+31.94.66.22 - - [05/Jul/2025 11:22:33] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -

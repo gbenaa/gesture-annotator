@@ -5,50 +5,29 @@
  * Running on http://127.0.0.1:5000
  * Running on http://172.26.13.41:5000
 [33mPress CTRL+C to quit[0m
-2025-07-03 18:17:27,182 INFO sqlalchemy.engine.Engine select pg_catalog.version()
-2025-07-03 18:17:27,208 INFO sqlalchemy.engine.Engine [raw sql] {}
-2025-07-03 18:17:27,290 INFO sqlalchemy.engine.Engine select current_schema()
-2025-07-03 18:17:27,290 INFO sqlalchemy.engine.Engine [raw sql] {}
-2025-07-03 18:17:27,295 INFO sqlalchemy.engine.Engine show standard_conforming_strings
-2025-07-03 18:17:27,295 INFO sqlalchemy.engine.Engine [raw sql] {}
-2025-07-03 18:17:27,308 INFO sqlalchemy.engine.Engine BEGIN (implicit)
-2025-07-03 18:17:27,458 INFO sqlalchemy.engine.Engine SELECT gestures.id AS gestures_id, gestures.name AS gestures_name, gestures.description AS gestures_description 
+127.0.0.1 - - [05/Jul/2025 11:21:53] "GET / HTTP/1.0" 200 -
+2025-07-05 11:22:01,058 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+2025-07-05 11:22:01,069 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-05 11:22:01,129 INFO sqlalchemy.engine.Engine select current_schema()
+2025-07-05 11:22:01,129 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-05 11:22:01,133 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+2025-07-05 11:22:01,134 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-05 11:22:01,149 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-05 11:22:01,287 INFO sqlalchemy.engine.Engine SELECT gestures.id AS gestures_id, gestures.name AS gestures_name, gestures.description AS gestures_description 
 FROM gestures
-2025-07-03 18:17:27,458 INFO sqlalchemy.engine.Engine [generated in 0.00878s] {}
-127.0.0.1 - - [03/Jul/2025 18:17:27] "GET /gestures HTTP/1.1" 200 -
-2025-07-03 18:17:27,701 INFO sqlalchemy.engine.Engine SELECT gestures.id AS gestures_id, gestures.name AS gestures_name, gestures.description AS gestures_description 
+2025-07-05 11:22:01,287 INFO sqlalchemy.engine.Engine [generated in 0.00384s] {}
+127.0.0.1 - - [05/Jul/2025 11:22:01] "GET /gestures HTTP/1.1" 200 -
+2025-07-05 11:22:01,371 INFO sqlalchemy.engine.Engine SELECT gestures.id AS gestures_id, gestures.name AS gestures_name, gestures.description AS gestures_description 
 FROM gestures
-2025-07-03 18:17:27,701 INFO sqlalchemy.engine.Engine [cached since 0.2521s ago] {}
-127.0.0.1 - - [03/Jul/2025 18:17:27] "GET /gestures HTTP/1.1" 200 -
-2025-07-03 18:17:29,613 INFO sqlalchemy.engine.Engine SELECT gestures.id AS gestures_id, gestures.name AS gestures_name, gestures.description AS gestures_description 
-FROM gestures
-2025-07-03 18:17:29,613 INFO sqlalchemy.engine.Engine [cached since 2.164s ago] {}
-127.0.0.1 - - [03/Jul/2025 18:17:29] "GET /gestures HTTP/1.1" 200 -
-2025-07-03 18:17:29,649 INFO sqlalchemy.engine.Engine SELECT gestures.id AS gestures_id, gestures.name AS gestures_name, gestures.description AS gestures_description 
-FROM gestures
-2025-07-03 18:17:29,649 INFO sqlalchemy.engine.Engine [cached since 2.2s ago] {}
-127.0.0.1 - - [03/Jul/2025 18:17:29] "GET /gestures HTTP/1.1" 200 -
-2025-07-03 18:17:35,539 INFO sqlalchemy.engine.Engine SELECT gestures.id AS gestures_id, gestures.name AS gestures_name, gestures.description AS gestures_description 
-FROM gestures
-2025-07-03 18:17:35,539 INFO sqlalchemy.engine.Engine [cached since 8.09s ago] {}
-127.0.0.1 - - [03/Jul/2025 18:17:35] "GET /gestures HTTP/1.1" 200 -
-2025-07-03 18:17:35,588 INFO sqlalchemy.engine.Engine SELECT gestures.id AS gestures_id, gestures.name AS gestures_name, gestures.description AS gestures_description 
-FROM gestures
-2025-07-03 18:17:35,588 INFO sqlalchemy.engine.Engine [cached since 8.139s ago] {}
-127.0.0.1 - - [03/Jul/2025 18:17:35] "GET /gestures HTTP/1.1" 200 -
-2025-07-03 18:17:38,878 INFO sqlalchemy.engine.Engine SELECT gestures.id AS gestures_id, gestures.name AS gestures_name, gestures.description AS gestures_description 
-FROM gestures
-2025-07-03 18:17:38,878 INFO sqlalchemy.engine.Engine [cached since 11.43s ago] {}
-127.0.0.1 - - [03/Jul/2025 18:17:38] "GET /gestures HTTP/1.1" 200 -
-2025-07-03 18:17:38,918 INFO sqlalchemy.engine.Engine SELECT gestures.id AS gestures_id, gestures.name AS gestures_name, gestures.description AS gestures_description 
-FROM gestures
-2025-07-03 18:17:38,918 INFO sqlalchemy.engine.Engine [cached since 11.47s ago] {}
-127.0.0.1 - - [03/Jul/2025 18:17:38] "GET /gestures HTTP/1.1" 200 -
-2025-07-03 18:17:41,940 INFO sqlalchemy.engine.Engine SELECT gestures.id AS gestures_id, gestures.name AS gestures_name, gestures.description AS gestures_description 
-FROM gestures
-2025-07-03 18:17:41,940 INFO sqlalchemy.engine.Engine [cached since 14.49s ago] {}
-127.0.0.1 - - [03/Jul/2025 18:17:41] "GET /gestures HTTP/1.1" 200 -
-2025-07-03 18:17:42,082 INFO sqlalchemy.engine.Engine SELECT gestures.id AS gestures_id, gestures.name AS gestures_name, gestures.description AS gestures_description 
-FROM gestures
-2025-07-03 18:17:42,082 INFO sqlalchemy.engine.Engine [cached since 14.63s ago] {}
-127.0.0.1 - - [03/Jul/2025 18:17:42] "GET /gestures HTTP/1.1" 200 -
+2025-07-05 11:22:01,371 INFO sqlalchemy.engine.Engine [cached since 0.08831s ago] {}
+127.0.0.1 - - [05/Jul/2025 11:22:01] "GET /gestures HTTP/1.1" 200 -
+31.94.66.22 - - [05/Jul/2025 11:22:26] "GET / HTTP/1.1" 200 -
+31.94.66.22 - - [05/Jul/2025 11:22:26] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+127.0.0.1 - - [05/Jul/2025 11:48:05] "[33mGET /upl.php HTTP/1.0[0m" 404 -
+127.0.0.1 - - [05/Jul/2025 11:48:05] "[33mGET /geoip/ HTTP/1.0[0m" 404 -
+127.0.0.1 - - [05/Jul/2025 11:48:05] "[33mGET /favicon.ico HTTP/1.0[0m" 404 -
+127.0.0.1 - - [05/Jul/2025 11:48:05] "[33mGET /password.php HTTP/1.0[0m" 404 -
+127.0.0.1 - - [05/Jul/2025 11:48:05] "[33mGET /form.html HTTP/1.0[0m" 404 -
+127.0.0.1 - - [05/Jul/2025 11:48:05] "[33mGET /t4 HTTP/1.0[0m" 404 -
+127.0.0.1 - - [05/Jul/2025 11:48:05] "[33mGET /1.php HTTP/1.0[0m" 404 -
+127.0.0.1 - - [05/Jul/2025 11:48:05] "[33mGET /systembc/password.php HTTP/1.0[0m" 404 -

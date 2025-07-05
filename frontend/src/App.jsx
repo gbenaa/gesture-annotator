@@ -6,6 +6,7 @@ function App() {
   const [image, setImage] = useState(null);
   const [imageId, setImageId] = useState(null);
   const [rect, setRect] = useState(null);
+  const [isDrawing, setIsDrawing] = useState(false);
   const [notes, setNotes] = useState('');
   const [uploaded, setUploaded] = useState(false);
   const [gestures, setGestures] = useState([]);
@@ -27,7 +28,6 @@ function App() {
     fetchGestures();
   }, []);
 
-  // Accepts both <input> change and drop events
   const handleFile = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -51,7 +51,6 @@ function App() {
     }
   };
 
-  // Drag-and-drop helpers
   const handleDrag = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -62,21 +61,27 @@ function App() {
     }
   }, []);
 
-  // Canvas interactions
   const handleMouseDown = (e) => {
     if (!uploaded) return;
     const { x, y } = e.target.getStage().getPointerPosition();
+    setIsDrawing(true);
     setRect({ x, y, width: 0, height: 0 });
   };
 
   const handleMouseMove = (e) => {
-    if (!rect) return;
+    if (!isDrawing || !rect) return;
     const { x, y } = e.target.getStage().getPointerPosition();
     setRect((prev) => ({
       ...prev,
       width: x - prev.x,
       height: y - prev.y,
     }));
+  };
+
+  const handleMouseUp = () => {
+    if (isDrawing) {
+      setIsDrawing(false);
+    }
   };
 
   const handleSave = async () => {
@@ -100,8 +105,7 @@ function App() {
       const res = await axios.post('/annotate', payload);
       alert('Annotation saved: ' + JSON.stringify(res.data));
 
-      // Reset drawing state
-      setRect(null);
+      setRect(null); // clear selection after save to allow a new annotation
       setNotes('');
       setSelectedGestureId('');
     } catch (err) {
@@ -113,7 +117,6 @@ function App() {
     <div style={{ padding: '20px' }}>
       <h2>Gesture Annotator</h2>
 
-      {/* Drag-and-Drop Zone */}
       <div
         onDragEnter={handleDrag}
         onDragOver={handleDrag}
@@ -140,7 +143,6 @@ function App() {
         <span style={{ color: dragActive ? '#4a90e2' : '#666' }}>
           {dragActive ? 'Drop image here…' : 'Click or drag an image here'}
         </span>
-        {/* Hidden fallback input */}
         <input
           id="fileInput"
           type="file"
@@ -150,13 +152,12 @@ function App() {
         />
       </div>
 
-      {/* Canvas */}
       <Stage
         width={600}
         height={400}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
-        onMouseUp={() => {}}
+        onMouseUp={handleMouseUp}
         ref={stageRef}
         style={{ border: '1px solid #ddd', marginTop: '10px' }}
       >
@@ -175,7 +176,6 @@ function App() {
         </Layer>
       </Stage>
 
-      {/* Notes */}
       <textarea
         placeholder="Notes"
         value={notes}
@@ -183,7 +183,6 @@ function App() {
         style={{ display: 'block', marginTop: '10px', width: '600px' }}
       />
 
-      {/* Gesture selector */}
       <select
         value={selectedGestureId}
         onChange={(e) => setSelectedGestureId(e.target.value)}
@@ -197,7 +196,6 @@ function App() {
         ))}
       </select>
 
-      {/* Save button */}
       <button onClick={handleSave} style={{ marginTop: '10px' }}>
         Save Annotation
       </button>
